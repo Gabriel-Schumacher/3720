@@ -26,7 +26,7 @@ function completeToDo(id) {
     editStatus(id, "completed")
 }
 
-console.log("Hello World")
+
 
 function showList() {
     const toDoList = document.getElementById('toDoList')
@@ -37,6 +37,8 @@ function showList() {
         listItem.classList.add('toDoItem', todo.status)
         toDoList.appendChild(listItem)
     })
-}
+}//Will change it to be a card eventually 
 
 showList()
+
+console.log("Looks like this is working")
