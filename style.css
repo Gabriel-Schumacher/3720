@@ -1,0 +1,9 @@
+ul {
+    font-family: sans-serif;
+}
+
+li {
+    list-style-type: square;
+    margin-top: 1rem;
+    font-size: 1.5rem;
+}
