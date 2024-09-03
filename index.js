@@ -41,4 +41,4 @@ function showList() {
 
 showList()
 
-console.log("Looks like this is working")
+console.log(typeof(value))
