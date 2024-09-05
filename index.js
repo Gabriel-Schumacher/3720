@@ -42,3 +42,5 @@ function showList() {
 showList()
 
 console.log(typeof(value))
+
+

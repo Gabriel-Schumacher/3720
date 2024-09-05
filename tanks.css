@@ -1,0 +1,18 @@
+h1 {
+    margin: 2rem;
+}
+
+div {
+    margin: 1rem;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.vehicle {
+    margin: 1rem;
+    background-color: aliceblue;
+    padding: 1rem;
+}

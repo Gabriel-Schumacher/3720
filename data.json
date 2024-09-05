@@ -1,0 +1,116 @@
+{
+    "vehicles": {
+        "T-34": {
+            "image": "./imgs/t34.jpg",
+            "service": "1940-present",
+            "weapon": {
+                "caliber": 76,
+                "unit": "mm"
+            },
+            "front-armor": {
+                "thickness": 47,
+                "unit": "mm"
+            },
+            "armor-type": "steel",
+            "crew": 4
+        },
+        "T-55": {
+            "image": "./imgs/t55.jpg",
+            "service": "1948-present",
+            "weapon": {
+                "caliber": 100,
+                "unit": "mm"
+            },
+            "front-armor": {
+                "thickness": 120,
+                "unit": "mm"
+            },
+            "armor-type": "steel",
+            "crew": 4
+        },
+        "T-62": {
+            "image": "./imgs/t62.jpg",
+            "service": "1961-present",
+            "weapon": {
+                "caliber": 115,
+                "unit": "mm"
+            },
+            "front-armor": {
+                "thickness": 102,
+                "unit": "mm"
+            },
+            "armor-type": "steel",
+            "crew": 4
+        },
+        "T-64": {
+            "image": "./imgs/t64.jpg",
+            "service": "1966-present",
+            "weapon": {
+                "caliber": 125,
+                "unit": "mm"
+            },
+            "front-armor": {
+                "thickness": null,
+                "unit": "mm"
+            },
+            "armor-type": "composite",
+            "crew": 3
+        },
+        "T-72": {
+            "image": "./imgs/t72.jpg",
+            "service": "1973-present",
+            "weapon": {
+                "caliber": 125,
+                "unit": "mm"
+            },
+            "front-armor": {
+                "thickness": null,
+                "unit": "mm"
+            },
+            "armor-type": "composite",
+            "crew": 3
+        },
+        "T-80": {
+            "image": "./imgs/t80.jpg",
+            "service": "1976-present",
+            "weapon": {
+                "caliber": 125,
+                "unit": "mm"
+            },
+            "front-armor": {
+                "thickness": null,
+                "unit": "mm"
+            },
+            "armor-type": "composite",
+            "crew": 3
+        },
+        "T-90": {
+            "image": "./imgs/t90.jpg",
+            "service": "1992-present",
+            "weapon": {
+                "caliber": 125,
+                "unit": "mm"
+            },
+            "front-armor": {
+                "thickness": null,
+                "unit": "mm"
+            },
+            "armor-type": "composite reactive blend",
+            "crew": 3
+        },
+        "T-14": {
+            "image": "./imgs/t14.jpg",
+            "service": "2014-present",
+            "weapon": {
+                "caliber": 125,
+                "unit": "mm"
+            },
+            "front-armor": {
+                "thickness": null,
+                "unit": "mm"
+            },
+            "armor-type": "composite reactive blend",
+            "crew": 3
+        }
+    }
+}
