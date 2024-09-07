@@ -1,41 +1,61 @@
 console.log('hello world')
 
 
-//let isSad = true;
-//let isHappy = !isSad; // The opposite
-//let isFeeling = isSad || isHappy; // Is at least one of them true?
-//let isConfusing = isSad && isHappy; // Are both true?
+const spreadsheet = { title: 'Sales' };
+const copy = spreadsheet;
+copy.title = copy.title + ' (Copy)';
+
+console.log(spreadsheet.title); // ???
+///////////////////////////////////////////////////////////////////////////////////////
 
 
 
-let dwarves = 7;
-let continents = '7';
-let worldWonders = 3 + 4;
 
-//console.log(Object.is(dwarves, continents)); // ?
-//console.log(Object.is(continents, worldWonders)); // ?
-//console.log(Object.is(worldWonders, dwarves)); // ?
-
-
-let banana = {};
-let cherry = banana;
-let chocolate = cherry;
-cherry = {};
-
-//console.log(Object.is(banana, cherry)); // ?
-//console.log(Object.is(cherry, chocolate)); // ?
-//console.log(Object.is(chocolate, banana)); // ? 
-
-fingernails = 'mu'
-
-toes = 'mu'
-
-//console.log(fingernails === toes)
-
-let tea = function() {
-    return 0 / 0
+let music = {
+    taste: "classical"
 }
 
-matcha = tea()
+let onion = music
 
-console.log(matcha)
+console.log(music.taste); // "classical"
+onion.taste = "umami";
+console.log(music.taste); // "umami"t
+
+let burger = {
+    beef: "veggie"
+}
+
+let rapper = {
+    beef: "legit"
+}
+
+console.log(burger.beef); // 'veggie'
+burger = rapper;
+console.log(burger.beef); // 'legit'
+
+let daria = {
+    address: { city: 'Lawndale' }
+  };
+  let place = daria.address;
+  place.city = 'L.A.';
+  let jane = {
+    address: place
+  };
+  
+  console.log(daria.address.city); // ???
+
+  let dipper = {
+    address: {
+      city: { name: 'Gravity Falls' }
+    }
+  };
+  
+  let mabel = {
+    address: dipper.address
+  };
+  
+  dipper.address.city = {
+    name: 'Land of Ooo'
+  };
+  
+  console.log(mabel.address.city.name); // ???
