@@ -9,6 +9,7 @@ function displayTodos() {
 
   todos.forEach(todo => {
     const todoItem = document.createElement('li');
+    todoItem.id = `todo-${todo.todoID}`
     todoItem.classList.add(
       'relative', // Needed for positioning child elements
       'flex',
@@ -25,13 +26,6 @@ function displayTodos() {
       'list-none', // Remove default list styling
       'group'
     );
-
-    todoItem.onclick = function() {
-      todoItem.classList.toggle('line-through')
-    }
-    if (todo.todoComplete) {
-      todoItem.classList.add('line-through');
-    }
 
     const todoText = document.createElement('span');
     todoText.textContent = todo.todoText;
@@ -105,12 +99,30 @@ function displayTodos() {
 }
 
 
+function markCompleted(todoID) {
+  const todoItem = document.querySelector(`#todo-${todoID}`)
+  if (todoItem) {
+    todoItem.classList.toggle(line-through)
+    const todo = todos.find(t => t.todoID === todoID)
+    todo.todoComplete = !todo.todoComplete
+  }
+}
 
+function removeCompleted() {
+  const completedItems = document.querySelectorAll('#todoList .line-through')
+  completedItems.forEach(item => {
+    item.remove()
+  })
+  todos = todos.filter(todo => !todo.todoComplete)
+}
 
-
-
-
-
+function removeItem() {
+  const todoItem = document.querySelector(`#todo-${todoID}`)
+  if (todoItem) {
+    todoItem.remove()
+    todos = todos.filter(todo => todo.todoID !== todoID)
+  }
+}
   
 
   document.getElementById('IDBtn').addEventListener('click', addTodo)
@@ -132,5 +144,13 @@ function displayTodos() {
     displayTodos()
     }
   }
+
+document.getElementById('clearBtn').addEventListener('click', removeCompleted);
+document.getElementById('IDBtn').addEventListener('click', addTodo);
+document.getElementById('inputFld').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    addTodo();
+  }
+});
 
   displayTodos()
