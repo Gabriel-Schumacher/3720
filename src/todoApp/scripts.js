@@ -64,6 +64,7 @@ function displayTodos() {
     )
     editButton.onclick = () => {
       console.log('Edit!')
+      editItem(todo.todoID, todoText)
     }
 
     const editIcon = document.createElement('i')
@@ -96,9 +97,9 @@ function displayTodos() {
       console.log('Delete!')
     }
 
-
     const trashIcon = document.createElement('i')
     trashIcon.classList.add('fa', 'fa-trash')
+    //---------------------------------------Trash Button End Here------------------------------------------------------------------
 
 
     trashButton.appendChild(trashIcon)
@@ -110,10 +111,8 @@ function displayTodos() {
     todoItem.appendChild(buttonContainer)
 
     todoList.appendChild(todoItem)
-    //---------------------------------------Trash Button End Here------------------------------------------------------------------
   })
 }
-
 
 function markCompleted(todoID) {
   const todoItem = document.querySelector(`#todo-${todoID}`)
@@ -139,16 +138,30 @@ function removeItem(todoID) {
     todos = todos.filter(todo => todo.todoID !== todoID)
   }
 }
-  
 
-  document.getElementById('IDBtn').addEventListener('click', addTodo)
-  document.getElementById('inputFld').addEventListener('keypress', (event) => {
-    if (event.key === 'Enter') {
-      addTodo()
+function editItem(todoID, todoTextE) {
+  const todo = todos.find(t => t.todoID === todoID)
+  const editInput = document.createElement('input')
+  editInput.type = 'text'
+  editInput.value = todo.todoText
+  editInput.classList.add('bg-gray-200', 'p-2', 'rounded', 'w-full', 'text-gray-800')
+  todoTextE.replaceWith(editInput)
+  editInput.addEventListener('keypress', event => {
+    if (event.key === 'Enter' && editInput.value.trim()) {
+      saveTodoEdit(todoID, editInput.value)
     }
   })
 
-  //Adding new todo--
+}
+
+function saveTodoEdit(todoID, newText) {
+  const todo = todos.find(t => t.todoID === todoID)
+  todo.todoText = newText
+  displayTodos()
+}
+
+
+ //Adding new todo--
   function addTodo() {
     const input = document.getElementById('inputFld')
     if (input.value.trim()) {
