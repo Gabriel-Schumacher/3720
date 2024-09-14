@@ -2,13 +2,13 @@ let todos = [
 
 ]
 
-//I used chatgpt to create tailwind based on normal css I gave it (there was still a lot of trouble shooting I had to do), the comments are from AI generated tailwind.
+//I used chatgpt to create tailwind based on normal css I gave it (there was still a lot of trouble shooting I had to do with the styling), the comments on classes are from AI generated tailwind.
 function displayTodos() {
-  const todoList = document.getElementById('todoList');
+  const todoList = document.getElementById('todoList')
   todoList.innerHTML = ''
 
   todos.forEach(todo => {
-    const todoItem = document.createElement('li');
+    const todoItem = document.createElement('li')
     todoItem.id = `todo-${todo.todoID}`
     todoItem.classList.add(
       'relative', // Needed for positioning child elements
@@ -25,22 +25,24 @@ function displayTodos() {
       'overflow-hidden', // Hide overflow
       'list-none', // Remove default list styling
       'group'
-    );
+    )
 
-    const todoText = document.createElement('span');
-    todoText.textContent = todo.todoText;
-    todoText.classList.add('text-gray-800');
+    const todoText = document.createElement('span')
+    todoText.textContent = todo.todoText
+    todoText.classList.add('text-gray-800')
 
-    const buttonContainer = document.createElement('div');
+    const buttonContainer = document.createElement('div')
     buttonContainer.classList.add(
       'absolute',
       'right-0', // Align to the right edge
       'h-full', // Full height of the list item
       'flex',
       'items-center', // Center buttons vertically
-    );
+    )
 
-    const editButton = document.createElement('button');
+
+    //----------------------------------Edit BUtton Start Here-----------------------------------------------------
+    const editButton = document.createElement('button')
     editButton.classList.add(
       'w-12', // Width: 48px
       'h-12', // Height: 48px
@@ -57,14 +59,20 @@ function displayTodos() {
       'translate-x-full', // Start off-screen to the left
       'group-hover:translate-x-0', // Translate to 0 on hover
       'opacity-0',
-      'group-hover:opacity-100' // Show on hover
-    );
+      'group-hover:opacity-100', // Show on hover
+      'active:bg-gray-100'
+    )
+    editButton.onclick = () => {
+      console.log('Edit!')
+    }
 
-    const editIcon = document.createElement('i');
-    editIcon.classList.add('fa', 'fa-edit');
-    editButton.appendChild(editIcon);
+    const editIcon = document.createElement('i')
+    editIcon.classList.add('fa', 'fa-edit')
+    editButton.appendChild(editIcon)
+    //----------------------------------Edit Button End Here----------------------------------------------------------
 
-    const trashButton = document.createElement('button');
+    //--------------------------------Trash Button Start Here-------------------------------------------------------
+    const trashButton = document.createElement('button')
     trashButton.classList.add(
       'w-12', // Width: 48px
       'h-12', // Height: 48px
@@ -82,20 +90,28 @@ function displayTodos() {
       'group-hover:translate-x-0', // Translate to 0 on hover
       'opacity-0',
       'group-hover:opacity-100' // Show on hover
-    );
+    )
+    trashButton.onclick = () => {
+      removeItem(todo.todoID)
+      console.log('Delete!')
+    }
 
-    const trashIcon = document.createElement('i');
-    trashIcon.classList.add('fa', 'fa-trash');
-    trashButton.appendChild(trashIcon);
 
-    buttonContainer.appendChild(editButton);
-    buttonContainer.appendChild(trashButton);
+    const trashIcon = document.createElement('i')
+    trashIcon.classList.add('fa', 'fa-trash')
 
-    todoItem.appendChild(todoText);
-    todoItem.appendChild(buttonContainer);
 
-    todoList.appendChild(todoItem);
-  });
+    trashButton.appendChild(trashIcon)
+
+    buttonContainer.appendChild(editButton)
+    buttonContainer.appendChild(trashButton)
+
+    todoItem.appendChild(todoText)
+    todoItem.appendChild(buttonContainer)
+
+    todoList.appendChild(todoItem)
+    //---------------------------------------Trash Button End Here------------------------------------------------------------------
+  })
 }
 
 
@@ -116,7 +132,7 @@ function removeCompleted() {
   todos = todos.filter(todo => !todo.todoComplete)
 }
 
-function removeItem() {
+function removeItem(todoID) {
   const todoItem = document.querySelector(`#todo-${todoID}`)
   if (todoItem) {
     todoItem.remove()
@@ -126,11 +142,13 @@ function removeItem() {
   
 
   document.getElementById('IDBtn').addEventListener('click', addTodo)
-  document.getElementById('inputFld').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
+  document.getElementById('inputFld').addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
       addTodo()
     }
   })
+
+  //Adding new todo--
   function addTodo() {
     const input = document.getElementById('inputFld')
     if (input.value.trim()) {
@@ -145,12 +163,12 @@ function removeItem() {
     }
   }
 
-document.getElementById('clearBtn').addEventListener('click', removeCompleted);
-document.getElementById('IDBtn').addEventListener('click', addTodo);
-document.getElementById('inputFld').addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') {
-    addTodo();
+document.getElementById('clearBtn').addEventListener('click', removeCompleted)
+document.getElementById('IDBtn').addEventListener('click', addTodo)
+document.getElementById('inputFld').addEventListener('keypress', function(event) {
+  if (event.key === 'Enter') {
+    addTodo()
   }
-});
+})
 
-  displayTodos()
+displayTodos()
