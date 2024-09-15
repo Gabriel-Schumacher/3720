@@ -56,6 +56,10 @@ function displayTodos() {
       markCompleted(todo.todoID)
     })
 
+    if (todo.todoComplete) {
+      todoItem.classList.add('line-through')
+    }
+
 
     //----------------------------------Edit BUtton Start Here-----------------------------------------------------
     const editButton = document.createElement('button')
@@ -78,7 +82,8 @@ function displayTodos() {
       'group-hover:opacity-100', // Show on hover
       'active:bg-gray-100'
     )
-    editButton.onclick = () => {
+    editButton.onclick = (event) => {
+      event.stopPropagation()
       console.log('Edit!')
       editItem(todo.todoID, todoText)
     }
@@ -131,9 +136,9 @@ function displayTodos() {
 function markCompleted(todoID) {
   const todoItem = document.querySelector(`#todo-${todoID}`)
   if (todoItem) {
-    todoItem.classList.toggle('line-through')
     const todo = todos.find(t => t.todoID === todoID)
     todo.todoComplete = !todo.todoComplete
+    todoItem.classList.toggle('line-through', todo.todoComplete)
   }
   displayPending(todos)
 }
@@ -162,6 +167,10 @@ function editItem(todoID, todoTextE) {
   editInput.value = todo.todoText
   editInput.classList.add('bg-gray-100', 'p-2', 'rounded', 'w-full', 'text-gray-800')
   todoTextE.replaceWith(editInput)
+
+  editInput.addEventListener('click', event => { //I added this to stop the item from being marked completed when you click into the input. I didn't know about stopPropagation() before this assignment!
+    event.stopPropagation()
+  })
   editInput.addEventListener('keypress', event => {
     if (event.key === 'Enter' && editInput.value.trim()) {
       saveTodoEdit(todoID, editInput.value)
