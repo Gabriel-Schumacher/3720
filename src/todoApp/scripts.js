@@ -160,7 +160,7 @@ function editItem(todoID, todoTextE) {
   const editInput = document.createElement('input')
   editInput.type = 'text'
   editInput.value = todo.todoText
-  editInput.classList.add('bg-gray-200', 'p-2', 'rounded', 'w-full', 'text-gray-800')
+  editInput.classList.add('bg-gray-100', 'p-2', 'rounded', 'w-full', 'text-gray-800')
   todoTextE.replaceWith(editInput)
   editInput.addEventListener('keypress', event => {
     if (event.key === 'Enter' && editInput.value.trim()) {
