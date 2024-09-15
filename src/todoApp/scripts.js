@@ -1,8 +1,19 @@
 let todos = [
-
+  {
+    todoID: 0,
+    todoText: "Template Task",
+    todoComplete: false
+  },
+  {
+    todoID: 1,
+    todoText: "Template Task",
+    todoComplete: false
+  }
 ]
 
-//I used chatgpt to create tailwind based on normal css I gave it (there was still a lot of trouble shooting I had to do with the styling), the comments on classes are from AI generated tailwind.
+//I used chatgpt to create tailwind based on normal css I gave it (there was still a lot of trouble shooting I had to do with the styling), 
+//the comments on after tailwind classes are from AI generated tailwind.
+//The non tailwind comments are mine.
 function displayTodos() {
   const todoList = document.getElementById('todoList')
   todoList.innerHTML = ''
@@ -39,6 +50,11 @@ function displayTodos() {
       'flex',
       'items-center', // Center buttons vertically
     )
+
+    //MarkCompleted
+    todoItem.addEventListener('click', () => {
+      markCompleted(todo.todoID)
+    })
 
 
     //----------------------------------Edit BUtton Start Here-----------------------------------------------------
@@ -103,26 +119,26 @@ function displayTodos() {
 
 
     trashButton.appendChild(trashIcon)
-
     buttonContainer.appendChild(editButton)
     buttonContainer.appendChild(trashButton)
-
     todoItem.appendChild(todoText)
     todoItem.appendChild(buttonContainer)
-
     todoList.appendChild(todoItem)
   })
-}
+}//End
 
+//Mark todo Completed--
 function markCompleted(todoID) {
   const todoItem = document.querySelector(`#todo-${todoID}`)
   if (todoItem) {
-    todoItem.classList.toggle(line-through)
+    todoItem.classList.toggle('line-through')
     const todo = todos.find(t => t.todoID === todoID)
     todo.todoComplete = !todo.todoComplete
   }
+  displayPending(todos)
 }
 
+//Clearing completed todo--
 function removeCompleted() {
   const completedItems = document.querySelectorAll('#todoList .line-through')
   completedItems.forEach(item => {
@@ -130,7 +146,6 @@ function removeCompleted() {
   })
   todos = todos.filter(todo => !todo.todoComplete)
 }
-
 function removeItem(todoID) {
   const todoItem = document.querySelector(`#todo-${todoID}`)
   if (todoItem) {
@@ -139,6 +154,7 @@ function removeItem(todoID) {
   }
 }
 
+//Editing todo--
 function editItem(todoID, todoTextE) {
   const todo = todos.find(t => t.todoID === todoID)
   const editInput = document.createElement('input')
@@ -151,9 +167,7 @@ function editItem(todoID, todoTextE) {
       saveTodoEdit(todoID, editInput.value)
     }
   })
-
 }
-
 function saveTodoEdit(todoID, newText) {
   const todo = todos.find(t => t.todoID === todoID)
   todo.todoText = newText
@@ -173,8 +187,24 @@ function saveTodoEdit(todoID, newText) {
     todos.push(newTodo)
     input.value = ''
     displayTodos()
+    displayPending(todos)
     }
   }
+
+//Pending todo
+function displayPending (todos) {
+  let todoTotalPending = 0
+  todos.forEach(todo => {
+    if (!todo.todoComplete) {
+      todoTotalPending++
+    }
+  });
+  console.log(todoTotalPending)
+  let pendingText = document.getElementById('pending')
+  pendingText.textContent = `You have ${todoTotalPending} pending tasks!`
+}
+
+
 
 document.getElementById('clearBtn').addEventListener('click', removeCompleted)
 document.getElementById('IDBtn').addEventListener('click', addTodo)
@@ -184,4 +214,5 @@ document.getElementById('inputFld').addEventListener('keypress', function(event)
   }
 })
 
+displayPending(todos)
 displayTodos()
