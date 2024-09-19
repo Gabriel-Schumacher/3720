@@ -8,23 +8,25 @@
     <link rel="stylesheet" href="../scroll.css">
     <title>Document</title>
 </head>
-<body class="bg-gray-200">
+<body class="bg-gray-200 m-16">
 
-    <div class="m-auto border-2 bg-gray-50 max-w-96">
+    <div class="m-auto border-2 bg-gray-50 w-[24rem] rounded-md">
         <header class="m-4 text-3xl font-bold">Todo List</header>
-        <div>
+        <div class="grid grid-cols-2/4">
           <input id="inputFld" class="m-4 p-4 border-2" type="text" placeholder="Enter new task" />
-          <select class="m-4" id="dropDown"></select> <!--hidden-->
-          <button id="IDBtn" class="m-4 p-4 bg-blue-500 hover:bg-slate-500 hover:text-white active:bg-slate-100"><i class="fas fa-plus"></i></button>
+          <!-- <select id="dropDown" class="m-4 p-2">
+            <option value="Chores">Chores</option>
+            <option value="Fun">Fun</option>
+          </select>           -->
+          <button id="IDBtn" class="m-4 p-4 bg-blue-500 hover:bg-slate-500 hover:text-white active:bg-slate-100 rounded-sm"><i class="fas fa-plus"></i></button>
         </div>
 <!--Start of to do list-->
         <ul id="todoList" class="m-4">
         </ul>
 <!--End of to do list-->
-
         <div class="m-4">
           <span id="pending">You have 1 pending tasks.</span>
-          <button id="clearBtn" class="m-4 p-4 bg-blue-500 hover:bg-slate-500 hover:text-white">Clear Done</button>
+          <button id="clearBtn" class="m-4 p-4 bg-blue-500 hover:bg-slate-500 hover:text-white rounded-sm">Clear Done</button>
         </div>
       </div>
     <script src="scripts.js"></script>

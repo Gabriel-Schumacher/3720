@@ -14,8 +14,14 @@ let todos = [
 ]
 
 let categories = [
-  "Chores",
-  "Fun"
+  {
+    id: 1,
+    name: 'Fun'
+  },
+  {
+    id: 2,
+    name: 'Chores'
+  }
 ]
 
 //I used chatgpt to create tailwind based on normal css I gave it (there was still a lot of trouble shooting I had to do with the styling), 
