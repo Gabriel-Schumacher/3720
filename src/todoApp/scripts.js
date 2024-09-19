@@ -2,19 +2,26 @@ let todos = [
   {
     todoID: 0,
     todoText: "Template Task",
-    todoComplete: false
+    todoComplete: false,
+    todoCategory: "Chores"
   },
   {
     todoID: 1,
     todoText: "Template Task",
-    todoComplete: false
+    todoComplete: false,
+    todoCategory: "Fun"
   }
+]
+
+let categories = [
+  "Chores",
+  "Fun"
 ]
 
 //I used chatgpt to create tailwind based on normal css I gave it (there was still a lot of trouble shooting I had to do with the styling), 
 //the comments on after tailwind classes are from AI generated tailwind.
 //The non tailwind comments are mine.
-function displayTodos() {
+function displayTodos(todos) {
   const todoList = document.getElementById('todoList')
   todoList.innerHTML = ''
 
@@ -25,7 +32,6 @@ function displayTodos() {
       'relative', // Needed for positioning child elements
       'flex',
       'items-center',
-      'h-12', // Height: 48px
       'leading-12', // Line height: 48px
       'bg-gray-200',
       'my-2',
@@ -38,9 +44,11 @@ function displayTodos() {
       'group'
     )
 
+    const todoCategory = todo.todoCategory
+
     const todoText = document.createElement('span')
-    todoText.textContent = todo.todoText
-    todoText.classList.add('text-gray-800')
+    todoText.textContent = `${todo.todoText} - ${todoCategory}`
+    todoText.classList.add('text-gray-800','p-2', 'py-4', 'pr-9')
 
     const buttonContainer = document.createElement('div')
     buttonContainer.classList.add(
@@ -65,7 +73,7 @@ function displayTodos() {
     const editButton = document.createElement('button')
     editButton.classList.add(
       'w-12', // Width: 48px
-      'h-12', // Height: 48px
+      'h-full',
       'text-white',
       'bg-yellow-500', // Yellow background
       'hover:bg-gray-300',
@@ -97,7 +105,7 @@ function displayTodos() {
     const trashButton = document.createElement('button')
     trashButton.classList.add(
       'w-12', // Width: 48px
-      'h-12', // Height: 48px
+      'h-full',
       'text-white',
       'bg-red-500', // Red background
       'hover:bg-gray-300',
@@ -130,7 +138,7 @@ function displayTodos() {
     todoItem.appendChild(buttonContainer)
     todoList.appendChild(todoItem)
   })
-}//End
+}//End------------------------------------------------------------------------------------------------------------
 
 //Mark todo Completed--
 function markCompleted(todoID) {
@@ -180,7 +188,7 @@ function editItem(todoID, todoTextE) {
 function saveTodoEdit(todoID, newText) {
   const todo = todos.find(t => t.todoID === todoID)
   todo.todoText = newText
-  displayTodos()
+  displayTodos(todos)
 }
 
 
@@ -191,11 +199,12 @@ function saveTodoEdit(todoID, newText) {
       const newTodo = {
         todoID: todos.length > 0 ? todos[todos.length - 1].todoID + 1 : 0,
         todoText: input.value,
-        todoComplete: false
+        todoComplete: false,
+        todoCategory: input.value
       }
     todos.push(newTodo)
     input.value = ''
-    displayTodos()
+    displayTodos(todos)
     displayPending(todos)
     }
   }
@@ -213,6 +222,11 @@ function displayPending (todos) {
   pendingText.textContent = `You have ${todoTotalPending} pending tasks!`
 }
 
+//Changing Categories
+
+function editCategory (todos) {
+  console.log(todos)
+}
 
 
 document.getElementById('clearBtn').addEventListener('click', removeCompleted)
@@ -224,4 +238,4 @@ document.getElementById('inputFld').addEventListener('keypress', function(event)
 })
 
 displayPending(todos)
-displayTodos()
+displayTodos(todos)
