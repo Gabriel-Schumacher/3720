@@ -21,34 +21,22 @@ let categories = [
   {
     id: 2,
     name: 'Chores'
+  },
+  {
+    id: 3,
+    name: 'School'
   }
 ]
 
-//I used chatgpt to create tailwind based on normal css I gave it (there was still a lot of trouble shooting I had to do with the styling), 
-//the comments on after tailwind classes are from AI generated tailwind.
-//The non tailwind comments are mine.
 function displayTodos(todos) {
   const todoList = document.getElementById('todoList')
   todoList.innerHTML = ''
 
+
+  //start of foreach loop--------------------
   todos.forEach(todo => {
     const todoItem = document.createElement('li')
-    todoItem.id = `todo-${todo.todoID}`
-    todoItem.classList.add(
-      'relative', // Needed for positioning child elements
-      'flex',
-      'items-center',
-      'leading-12', // Line height: 48px
-      'bg-gray-200',
-      'my-2',
-      'rounded-sm', // Border radius: 3px
-      'pl-4',
-      'pr-16',
-      'cursor-default', // Cursor style
-      'overflow-hidden', // Hide overflow
-      'list-none', // Remove default list styling
-      'group'
-    )
+    todoItem.classList.add('relative', 'flex', 'items-center', 'leading-12','bg-gray-200','my-2','rounded-sm', 'pl-4', 'pr-16', 'cursor-default', 'overflow-hidden', 'list-none', 'group')
 
     const todoCategory = todo.todoCategory
 
@@ -57,13 +45,7 @@ function displayTodos(todos) {
     todoText.classList.add('text-gray-800','p-2', 'py-4', 'pr-9')
 
     const buttonContainer = document.createElement('div')
-    buttonContainer.classList.add(
-      'absolute',
-      'right-0', // Align to the right edge
-      'h-full', // Full height of the list item
-      'flex',
-      'items-center', // Center buttons vertically
-    )
+    buttonContainer.classList.add('absolute', 'right-0', 'h-full', 'flex', 'items-center',)
 
     //MarkCompleted
     todoItem.addEventListener('click', () => {
@@ -77,25 +59,7 @@ function displayTodos(todos) {
 
     //----------------------------------Edit BUtton Start Here-----------------------------------------------------
     const editButton = document.createElement('button')
-    editButton.classList.add(
-      'w-12', // Width: 48px
-      'h-full',
-      'text-white',
-      'bg-yellow-500', // Yellow background
-      'hover:bg-gray-300',
-      'hover:text-black',
-      'rounded-r-sm', // Rounded corners on the right
-      'flex',
-      'items-center',
-      'justify-center',
-      'transition-transform', // Use transform for smooth animation
-      'transform', // Ensure transforms work
-      'translate-x-full', // Start off-screen to the left
-      'group-hover:translate-x-0', // Translate to 0 on hover
-      'opacity-0',
-      'group-hover:opacity-100', // Show on hover
-      'active:bg-gray-100'
-    )
+    editButton.classList.add('w-12', 'h-full', 'text-white', 'bg-yellow-500', 'hover:bg-gray-300', 'hover:text-black', 'rounded-r-sm', 'flex', 'items-center', 'justify-center', 'transition-transform', 'transform', 'translate-x-full', 'group-hover:translate-x-0', 'opacity-0', 'group-hover:opacity-100', 'active:bg-gray-100')
     editButton.onclick = (event) => {
       event.stopPropagation()
       console.log('Edit!')
@@ -109,24 +73,7 @@ function displayTodos(todos) {
 
     //--------------------------------Trash Button Start Here-------------------------------------------------------
     const trashButton = document.createElement('button')
-    trashButton.classList.add(
-      'w-12', // Width: 48px
-      'h-full',
-      'text-white',
-      'bg-red-500', // Red background
-      'hover:bg-gray-300',
-      'hover:text-black',
-      'rounded-r-sm', // Rounded corners on the right
-      'flex',
-      'items-center',
-      'justify-center',
-      'transition-transform', // Use transform for smooth animation
-      'transform', // Ensure transforms work
-      'translate-x-full', // Start off-screen to the left
-      'group-hover:translate-x-0', // Translate to 0 on hover
-      'opacity-0',
-      'group-hover:opacity-100' // Show on hover
-    )
+    trashButton.classList.add('w-12', 'h-full', 'text-white', 'bg-red-500', 'hover:bg-gray-300', 'hover:text-black', 'rounded-r-sm', 'flex', 'items-center', 'justify-center', 'transition-transform', 'transform', 'translate-x-full', 'group-hover:translate-x-0', 'opacity-0', 'group-hover:opacity-100')
     trashButton.onclick = () => {
       removeItem(todo.todoID)
       console.log('Delete!')
@@ -150,7 +97,7 @@ function displayTodos(todos) {
 function markCompleted(todoID) {
   const todoItem = document.querySelector(`#todo-${todoID}`)
   if (todoItem) {
-    const todo = todos.find(t => t.todoID === todoID)
+    const todo = todos.find(todo => todo.todoID === todoID)
     todo.todoComplete = !todo.todoComplete
     todoItem.classList.toggle('line-through', todo.todoComplete)
   }
@@ -201,12 +148,13 @@ function saveTodoEdit(todoID, newText) {
  //Adding new todo--
   function addTodo() {
     const input = document.getElementById('inputFld')
+    const selected = document.getElementById('dropDown').value
     if (input.value.trim()) {
       const newTodo = {
         todoID: todos.length > 0 ? todos[todos.length - 1].todoID + 1 : 0,
         todoText: input.value,
         todoComplete: false,
-        todoCategory: input.value
+        todoCategory: selected
       }
     todos.push(newTodo)
     input.value = ''
@@ -235,6 +183,22 @@ function editCategory (todos) {
 }
 
 
+//----Display categories inside dropdown
+function displayCategories (categories) {
+  let dropDown = document.getElementById('dropDown')
+  dropDown.innerHTML = ''
+  categories.forEach(c => {
+    let option = document.createElement('option')
+    let category = c.name
+    option.value = category
+    option.innerText = category
+    dropDown.appendChild(option)
+  })
+
+}
+
+//----Display categories inside dropdown
+
 document.getElementById('clearBtn').addEventListener('click', removeCompleted)
 document.getElementById('IDBtn').addEventListener('click', addTodo)
 document.getElementById('inputFld').addEventListener('keypress', function(event) {
@@ -245,3 +209,4 @@ document.getElementById('inputFld').addEventListener('keypress', function(event)
 
 displayPending(todos)
 displayTodos(todos)
+displayCategories(categories)
