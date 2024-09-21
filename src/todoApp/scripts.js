@@ -113,10 +113,17 @@ function editItem(todoID, todoTextE) {
   editInput.value = todo.todoText
   editInput.classList.add("bg-gray-100", "p-2", "rounded", "w-full", "text-gray-800")
   todoTextE.replaceWith(editInput)
+  editInput.focus()
 
   editInput.addEventListener('click', (event) => {
     //I added this to stop the item from being marked completed when you click into the input. I didn't know about stopPropagation() before this assignment!
     event.stopPropagation()
+  })
+  editInput.addEventListener('blur', () => {
+    //I added this to stop the item from being marked completed when you click into the input. I didn't know about stopPropagation() before this assignment!
+    if (editInput.value.trim()) {
+      saveTodoEdit(Number(todoID), editInput.value)    
+    }
   })
   editInput.addEventListener('keypress', (event) => {
     if (event.key === 'Enter' && editInput.value.trim()) {

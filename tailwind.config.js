@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     extend: {
       gridTemplateColumns: {
-        '2/4':'3fr 1fr'
+        '2/4':'3fr 1fr',
+        '2/3':'2fr 1fr 1fr'
       }
     },
   },

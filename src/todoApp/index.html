@@ -20,11 +20,16 @@
             <option value="Fun">Fun</option>
           </select>    
         </div>
-        <div class="m-4">
+        <div class="m-4 grid grid-cols-2/3">
           <input class="p-4 border-2" id="addCategory" placeholder="Add new category!">
-          <button id="CTBtn" class="m-4 p-4 bg-blue-500 hover:bg-slate-500 hover:text-white active:bg-slate-100 rounded-sm"><i class="fas fa-plus"></i></button>
+          <button id="CTBtn" class="m-2 p-4 bg-blue-500 hover:bg-slate-500 hover:text-white active:bg-slate-100 rounded-sm"><i class="fas fa-plus"></i></button>
+          <button id="CTEditBtn" class="m-2 p-4 bg-blue-500 hover:bg-slate-500 hover:text-white active:bg-slate-100 rounded-sm"><i class="fas fa-edit"></i></button>
         </div>
-        <div class="m-4 grid grid-cols-3" id="categoryFilter"></div>
+        <div>
+          <ul class="m-4 grid grid-cols-3" id="categoryFilter">
+
+          </ul>
+        </div>
 <!--Start of to do list-->
         <ul id="todoList" class="m-4">
         </ul>
