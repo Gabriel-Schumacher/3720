@@ -223,17 +223,36 @@ function displayCategoryFilters(categories) {
   })
 }//End
 
-// function addCategory() {
-// }
+function addCategory() {
+  const categoryInput = document.getElementById('addCategory')
+  if (categoryInput.value.trim()) {
+    const newCategory = {
+      id: categories.length > 0 ? categories[categories.length - 1].id + 1 : 0,
+      name: categoryInput.value.trim()
+    }
+    categories.push(newCategory)
+    displayCategoryFilters(categories)
+    displayCategories(categories)
+    categoryInput.value = ''
+  }
+}
 
 document.getElementById("clearBtn").addEventListener("click", removeCompleted)
 document.getElementById("IDBtn").addEventListener("click", addTodo)
+document.getElementById("CTBtn").addEventListener("click", addCategory)
 document.getElementById("inputFld")
 document.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
       addTodo()
     }
   })//End
+
+document.getElementById('addCategory')
+document.addEventListener('keypress', function (event) {
+  if (event.key === 'Enter') {
+    addCategory()
+  }
+})
 
 displayPending(todos)
 displayTodos(todos)
