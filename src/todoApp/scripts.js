@@ -68,6 +68,24 @@ function displayTodos(todos) {
   })
 } //End------------------------------------------------------------------------------------------------------------
 
+ //Adding new todo-----------------------
+ function addTodo() {
+  const input = document.getElementById('inputFld')
+  const selected = document.getElementById('dropDown').value
+  if (input.value.trim()) {
+    const newTodo = {
+      todoID: todos.length > 0 ? todos[todos.length - 1].todoID + 1 : 0,
+      todoText: input.value,
+      todoComplete: false,
+      todoCategory: selected
+    }
+  todos.push(newTodo)
+  input.value = ''
+  displayTodos(todos)
+  displayPending(todos)
+  }
+}///End
+
 //Mark todo Completed--
 function markCompleted(todoID) {
   const todoItem = document.querySelector(`[data-todo-id='${todoID}']`)
@@ -85,13 +103,6 @@ function removeCompleted() {
     item.remove()
   })
   todos = todos.filter((todo) => !todo.todoComplete)
-}//End
-function removeItem(todoID) {
-  const todoItem = document.querySelector(`#todo-${todoID}`)
-  if (todoItem) {
-    todoItem.remove()
-    todos = todos.filter((todo) => todo.todoID !== todoID)
-  }
 }//End
 
 //Editing todo------------------------------
@@ -113,7 +124,6 @@ function editItem(todoID, todoTextE) {
     }
   })
 }//End
-
 function saveTodoEdit(todoID, newText) {
   const todo = todos.find((t) => t.todoID === todoID)
   todo.todoText = newText
@@ -142,8 +152,7 @@ function createTrashButton (todoID) {
   const trashButton = document.createElement('button')
   trashButton.classList.add('w-12', 'h-full', 'text-white', 'bg-red-500', 'hover:bg-gray-300', 'hover:text-black', 'rounded-r-sm', 'flex', 'items-center', 'justify-center', 'transition-transform', 'transform', 'translate-x-full', 'group-hover:translate-x-0', 'opacity-0', 'group-hover:opacity-100')
   
-  trashButton.onclick = (event) => {
-    event.stopPropagation()
+  trashButton.onclick = () => {
     removeItem(todoID)
   }
   const trashIcon = document.createElement('i')
@@ -151,26 +160,15 @@ function createTrashButton (todoID) {
   trashButton.appendChild(trashIcon)
   return trashButton
 }//End
+function removeItem(todoID) {
+  const todoItem = document.querySelector(`[data-todo-id='${todoID}']`)
+  if (todoItem) {
+    todoItem.remove()
+    todos = todos.filter((todo) => todo.todoID !== todoID)
+  }
+}//End
 
- //Adding new todo-----------------------
-  function addTodo() {
-    const input = document.getElementById('inputFld')
-    const selected = document.getElementById('dropDown').value
-    if (input.value.trim()) {
-      const newTodo = {
-        todoID: todos.length > 0 ? todos[todos.length - 1].todoID + 1 : 0,
-        todoText: input.value,
-        todoComplete: false,
-        todoCategory: selected
-      }
-    todos.push(newTodo)
-    input.value = ''
-    displayTodos(todos)
-    displayPending(todos)
-    }
-  }///End
-
-//Pending todo
+//Pending todo----------------------------------
 function displayPending(todos) {
   let todoTotalPending = 0
   todos.forEach((todo) => {
@@ -183,10 +181,7 @@ function displayPending(todos) {
   pendingText.textContent = `You have ${todoTotalPending} pending tasks!`
 }
 
-//Changing Categories
-
-
-//----Display categories inside dropdown
+//----Display categories inside dropdown-------------
 function displayCategories (categories) {
   let dropDown = document.getElementById('dropDown')
   dropDown.innerHTML = ''
@@ -197,10 +192,39 @@ function displayCategories (categories) {
     option.innerText = category
     dropDown.appendChild(option)
   })
-
 }//End
 
-//----Display categories inside dropdown
+//---Filtering categories------------------------
+function filterTodosByCategory (category) {
+  if (category === 'All') {
+    displayTodos(todos)
+  } else {
+    const filteredTodos = todos.filter(todo => todo.todoCategory === category)
+    displayTodos(filteredTodos)
+  }
+}
+
+// Create category filter buttons
+function displayCategoryFilters(categories) {
+  const categoryFilter = document.getElementById("categoryFilter")
+  categoryFilter.innerHTML = ''
+  const allBtn = document.createElement('button')
+  allBtn.classList.add('bg-blue-200','m-2','hover:bg-slate-500','hover:text-white')
+  allBtn.textContent = "All"
+  allBtn.addEventListener("click", () => filterTodosByCategory("All"))
+  categoryFilter.appendChild(allBtn)
+
+  categories.forEach(category => {
+    const button = document.createElement('button')
+    button.classList.add('bg-blue-200','m-2','hover:bg-slate-500','hover:text-white')
+    button.textContent = category.name
+    button.addEventListener("click", () => filterTodosByCategory(category.name))
+    categoryFilter.appendChild(button)
+  })
+}//End
+
+// function addCategory() {
+// }
 
 document.getElementById("clearBtn").addEventListener("click", removeCompleted)
 document.getElementById("IDBtn").addEventListener("click", addTodo)
@@ -213,4 +237,5 @@ document.addEventListener("keypress", function (event) {
 
 displayPending(todos)
 displayTodos(todos)
+displayCategoryFilters(categories)
 displayCategories(categories)
