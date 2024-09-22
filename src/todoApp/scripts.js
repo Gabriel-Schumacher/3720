@@ -5,27 +5,17 @@ let todos = [
     todoComplete: false,
     todoCategory: "Chores",
   },
-  {
-    todoID: 1,
-    todoText: "Template Task",
-    todoComplete: false,
-    todoCategory: "Fun",
-  },
 ];
 
 let categories = [
   {
-    id: 1,
-    name: "Fun",
+    id: 0,
+    name: 'Uncategorized'
   },
   {
-    id: 2,
+    id: 1,
     name: 'Chores'
   },
-  {
-    id: 3,
-    name: 'School'
-  }
 ]
 
 function displayTodos(todos) {
@@ -60,7 +50,7 @@ function displayTodos(todos) {
     const editButton = createEditButton(todoItem.dataset.todoId, todoText)
     const trashButton = createTrashButton(todoItem.dataset.todoId)
 
-    buttonContainer.appendChild(editButton)
+     buttonContainer.appendChild(editButton)
     buttonContainer.appendChild(trashButton)
     todoItem.appendChild(todoText)
     todoItem.appendChild(buttonContainer)
@@ -112,28 +102,45 @@ function editItem(todoID, todoTextE) {
   editInput.type = 'text'
   editInput.value = todo.todoText
   editInput.classList.add("bg-gray-100", "p-2", "rounded", "w-full", "text-gray-800")
-  todoTextE.replaceWith(editInput)
-  editInput.focus()
 
-  editInput.addEventListener('click', (event) => {
+
+  const categorySelect = document.createElement('select')
+  categorySelect.addEventListener('click', (event) => {
     //I added this to stop the item from being marked completed when you click into the input. I didn't know about stopPropagation() before this assignment!
     event.stopPropagation()
   })
-  editInput.addEventListener('blur', () => {
-    //I added this to stop the item from being marked completed when you click into the input. I didn't know about stopPropagation() before this assignment!
-    if (editInput.value.trim()) {
-      saveTodoEdit(Number(todoID), editInput.value)    
+
+  categorySelect.classList.add("bg-gray-100", "p-2", "rounded", "ml-4")
+
+  categories.forEach(category => {
+    const option = document.createElement('option')
+    option.value = category.name
+    option.textContent = category.name
+    if (category.name === todo.todoCategory) {
+      option.seleted = true
     }
+    categorySelect.appendChild(option)
+  })
+
+  todoTextE.replaceWith(editInput)
+  editInput.insertAdjacentElement('afterend', categorySelect)
+
+  editInput.addEventListener('click', (event) => {
+    editInput.focus()
+    //I added this to stop the item from being marked completed when you click into the input. I didn't know about stopPropagation() before this assignment!
+    event.stopPropagation()
   })
   editInput.addEventListener('keypress', (event) => {
     if (event.key === 'Enter' && editInput.value.trim()) {
-      saveTodoEdit(Number(todoID), editInput.value)
+      saveTodoEdit(Number(todoID), editInput.value, categorySelect.value)
     }
   })
 }//End
-function saveTodoEdit(todoID, newText) {
+
+function saveTodoEdit(todoID, newText, newCategory) {
   const todo = todos.find((t) => t.todoID === todoID)
   todo.todoText = newText
+  todo.todoCategory = newCategory
   displayTodos(todos)
 }//End
 
@@ -168,11 +175,9 @@ function createTrashButton (todoID) {
   return trashButton
 }//End
 function removeItem(todoID) {
-  const todoItem = document.querySelector(`[data-todo-id='${todoID}']`)
-  if (todoItem) {
-    todoItem.remove()
-    todos = todos.filter((todo) => todo.todoID !== todoID)
-  }
+  todos = todos.filter((todo) => todo.todoID !== Number(todoID));
+  displayTodos(todos);
+  displayPending(todos);
 }//End
 
 //Pending todo----------------------------------
@@ -188,6 +193,8 @@ function displayPending(todos) {
   pendingText.textContent = `You have ${todoTotalPending} pending tasks!`
 }
 
+
+//-----Categories-----------------------------------
 //----Display categories inside dropdown-------------
 function displayCategories (categories) {
   let dropDown = document.getElementById('dropDown')
@@ -209,21 +216,21 @@ function filterTodosByCategory (category) {
     const filteredTodos = todos.filter(todo => todo.todoCategory === category)
     displayTodos(filteredTodos)
   }
-}
+}//End
 
 // Create category filter buttons
 function displayCategoryFilters(categories) {
   const categoryFilter = document.getElementById("categoryFilter")
   categoryFilter.innerHTML = ''
   const allBtn = document.createElement('button')
-  allBtn.classList.add('bg-blue-200','m-2','hover:bg-slate-500','hover:text-white')
+  allBtn.classList.add('bg-blue-200','m-1','hover:bg-slate-500','hover:text-white')
   allBtn.textContent = "All"
   allBtn.addEventListener("click", () => filterTodosByCategory("All"))
   categoryFilter.appendChild(allBtn)
 
   categories.forEach(category => {
     const button = document.createElement('button')
-    button.classList.add('bg-blue-200','m-2','hover:bg-slate-500','hover:text-white')
+    button.classList.add('bg-blue-200','m-1','hover:bg-slate-500','hover:text-white')
     button.textContent = category.name
     button.addEventListener("click", () => filterTodosByCategory(category.name))
     categoryFilter.appendChild(button)
@@ -242,25 +249,86 @@ function addCategory() {
     displayCategories(categories)
     categoryInput.value = ''
   }
+}//End
+
+function editCategories () {
+  const categoryFilter = document.getElementById('categoryFilter')
+  categoryFilter.innerHTML = ''
+
+  categories.forEach((category, index) => {
+    if (category.name !== 'Uncategorized') {
+    const categoryContainer = document.createElement('div')
+    categoryContainer.classList.add('m-4', 'grid', 'grid-cols-3/4')
+
+    const categoryInput = document.createElement('input')
+    categoryInput.type = 'text'
+    categoryInput.value = category.name
+    categoryInput.classList.add('bg-gray-100','w-full', 'text-gray-800')
+    categoryInput.dataset.index = index
+
+    const trashButton = document.createElement('button')
+    trashButton.classList.add('text-white', 'bg-red-500', 'hover:bg-gray-300', 'hover:text-black', 'rounded-sm')
+    trashButton.innerHTML = '<i class="fa fa-trash"></i>'
+
+    trashButton.addEventListener('click', () => {
+      todos.forEach(todo => {
+        if (todo.todoCategory === category.name) {
+          todo.todoCategory = 'Uncategorized'
+          displayTodos(todos)
+        }
+      })
+      categories.splice(index, 1)
+      editCategories(categories)
+    })
+    categoryContainer.appendChild(categoryInput)
+    categoryContainer.appendChild(trashButton)
+    categoryFilter.appendChild(categoryContainer)
+  }
+  })
+}//End
+
+function saveCategoryEdit () {
+  const inputs = document.querySelectorAll('#categoryFilter input')
+  inputs.forEach(input => {
+    const index = input.dataset.index
+    categories[index].name = input.value.trim()
+  })
 }
 
-document.getElementById("clearBtn").addEventListener("click", removeCompleted)
-document.getElementById("IDBtn").addEventListener("click", addTodo)
-document.getElementById("CTBtn").addEventListener("click", addCategory)
-document.getElementById("inputFld")
-document.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-      addTodo()
+//Event Listeners now go inside here
+function eventListeners() {
+  document.getElementById("clearBtn").addEventListener("click", removeCompleted)
+  document.getElementById("IDBtn").addEventListener("click", addTodo)
+  document.getElementById("CTBtn").addEventListener("click", addCategory)
+  document.getElementById("inputFld")
+  document.addEventListener("keypress", function (event) {
+      if (event.key === "Enter") {
+        addTodo()
+      }
+    })//End
+  document.getElementById('addCategory')
+  document.addEventListener('keypress', function (event) {
+    if (event.key === 'Enter') {
+      addCategory()
     }
   })//End
 
-document.getElementById('addCategory')
-document.addEventListener('keypress', function (event) {
-  if (event.key === 'Enter') {
-    addCategory()
-  }
-})
+  document.getElementById('CTEditBtn').addEventListener('click', () => {
+    const editButton = document.getElementById('CTEditBtn')
 
+    if (editButton.innerHTML.includes('fa-edit')) {
+      editButton.innerHTML = '<i class="fas fa-save"></i>'
+      editCategories()
+    } else {
+      editButton.innerHTML = '<i class="fas fa-edit"></i>'
+      saveCategoryEdit(categories)
+      displayCategoryFilters(categories)
+      displayCategories(categories)
+    }
+  })
+}//End
+
+eventListeners()
 displayPending(todos)
 displayTodos(todos)
 displayCategoryFilters(categories)
