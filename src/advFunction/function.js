@@ -33,7 +33,7 @@ let reverse = (string) => {
 
 let company = {
     sales: [{
-        name: 'john',
+        name: 'John',
         salary: 1000
     },{
         name: 'Alice',
@@ -51,7 +51,11 @@ let company = {
             name: 'Jack',
             salary: 1300
         }]
-    }
+    },
+    humanResources: [{
+        name: 'Jennifer',
+        salary: 2000
+    }]
 }
 
 function countSalary (department) {
