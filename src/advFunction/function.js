@@ -73,3 +73,41 @@ function countSalary (department) {
 }
 
 console.log(countSalary(company))
+
+
+let person = {
+    name: 'Gabriel',
+    age: '26',
+
+}
+
+let myArray = [1,2,3,4,5,6,7,8,9]
+
+let evens = myArray.filter(num =>  num % 2 === 0)
+
+//console.log(evens)
+
+let data = [
+    { id: 'animals', parent: null },
+    { id: 'mammals', parent: 'animals' },
+    { id: 'cats', parent: 'mammals' },
+    { id: 'dogs', parent: 'mammals' },
+    { id: 'labrador', parent: 'dogs' },
+    { id: 'retreiver', parent: 'dogs' },
+    { id: 'corgi', parent: 'dogs' },
+    { id: 'persian', parent: 'cats' },
+    { id: 'siamese', parent: 'cats' },
+    { id: 'maineCoon', parent: 'cats' }
+];
+
+function makeNewTree(arr, parent) {
+    const newTree = {}
+    arr.forEach(e => {
+        if(e.parent === parent) {
+            newTree[e.id] = makeNewTree(arr, e.id)
+        }
+    })
+    return newTree
+}
+
+console.log(makeNewTree(data, null))
