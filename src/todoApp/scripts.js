@@ -50,7 +50,7 @@ function displayTodos(todos) {
     const editButton = createEditButton(todoItem.dataset.todoId, todoText)
     const trashButton = createTrashButton(todoItem.dataset.todoId)
 
-     buttonContainer.appendChild(editButton)
+    buttonContainer.appendChild(editButton)
     buttonContainer.appendChild(trashButton)
     todoItem.appendChild(todoText)
     todoItem.appendChild(buttonContainer)
@@ -293,7 +293,7 @@ function saveCategoryEdit () {
     const index = input.dataset.index
     categories[index].name = input.value.trim()
   })
-}
+}//End
 
 //Event Listeners now go inside here
 function eventListeners() {

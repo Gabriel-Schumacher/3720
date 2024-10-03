@@ -72,7 +72,7 @@ function countSalary (department) {
     }
 }
 
-console.log(countSalary(company))
+//console.log(countSalary(company))
 
 
 let person = {
@@ -110,4 +110,31 @@ function makeNewTree(arr, parent) {
     return newTree
 }
 
-console.log(makeNewTree(data, null))
+//console.log(makeNewTree(data, null))
+
+//Reduce Demo 
+
+let arr = [1,2,3,4,5,6,7,8,9]
+
+
+let sum = arr.reduce((acc, num) => {
+    return acc * num
+}, 0)
+
+//console.log(sum)
+
+
+let people = [
+    {name: 'Alice', age: 21},
+    {name: 'Bob', age: 25},
+]
+
+let grouped = people.reduce((acc, person) => {
+    if(!acc[person.age]) {
+        acc[person.age] = []
+    }
+    acc[person.age].push(person)
+    return acc
+}, {})
+
+console.log(grouped)
