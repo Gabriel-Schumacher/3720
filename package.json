@@ -4,8 +4,5 @@
   },
   "scripts": {
     "dev": "npx tailwindcss -i ./src/input.css -o ./src/output.css --watch"
-  },
-  "dependencies": {
-    "express": "^4.21.1"
   }
 }
