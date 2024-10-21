@@ -1,11 +1,14 @@
-let todos = [
-  {
-    todoID: 0,
-    todoText: "Template Task",
-    todoComplete: false,
-    todoCategory: "Chores",
-  },
-];
+let todos = []
+
+async function fetchTodos() {
+  try {
+    const response = await fetch('http://localhost:3000/todos')
+    todos = await response.json()
+    displayTodos(todos)
+  } catch (error) {
+    console.log('Error fetching todos:', error)
+  }
+}
 
 let categories = [
   {
@@ -59,22 +62,36 @@ function displayTodos(todos) {
 } //End------------------------------------------------------------------------------------------------------------
 
  //Adding new todo-----------------------
- function addTodo() {
-  const input = document.getElementById('inputFld')
-  const selected = document.getElementById('dropDown').value
+ async function addTodo() {
+  const input = document.getElementById('inputFld');
+  const selected = document.getElementById('dropDown').value;
+
   if (input.value.trim()) {
     const newTodo = {
-      todoID: todos.length > 0 ? todos[todos.length - 1].todoID + 1 : 0,
       todoText: input.value,
       todoComplete: false,
       todoCategory: selected
+    };
+
+    try {
+      const response = await fetch('http://localhost:3000/todos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newTodo)
+      });
+
+      const addedTodo = await response.json();
+      todos.push(addedTodo); // Update the local todos array
+      input.value = '';
+      displayTodos(todos);
+      displayPending(todos);
+    } catch (error) {
+      console.error('Error adding todo:', error);
     }
-  todos.push(newTodo)
-  input.value = ''
-  displayTodos(todos)
-  displayPending(todos)
   }
-}///End
+}
 
 //Mark todo Completed--
 function markCompleted(todoID) {
