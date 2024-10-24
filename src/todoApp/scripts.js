@@ -3,12 +3,18 @@ let todos = []
 async function fetchTodos() {
   try {
     const response = await fetch('http://localhost:3000/todos')
+    if (!response.ok) {
+      throw new Error('Failed to fetch todos from server')
+    }
     todos = await response.json()
     displayTodos(todos)
+    displayPending(todos)
   } catch (error) {
     console.log('Error fetching todos:', error)
   }
 }
+
+fetchTodos()
 
 let categories = [
   {
@@ -62,7 +68,7 @@ function displayTodos(todos) {
 } //End------------------------------------------------------------------------------------------------------------
 
  //Adding new todo-----------------------
- async function addTodo() {
+async function addTodo() {
   const input = document.getElementById('inputFld');
   const selected = document.getElementById('dropDown').value;
 

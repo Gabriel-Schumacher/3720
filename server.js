@@ -30,7 +30,16 @@ app.post('/todos', (req, res) => {
 })
 
 app.put('/todos', (req, res) => {
+  const id = parseInt(req.params.id)
+  const updatedTodo = req.body
+  const index = todos.findIndex(todo => todo.id === id)
 
+  if (index !== -1) {
+    todos[index] = {...todos[index], ...updatedTodo }
+    res.json(todos[[index]])
+  } else {
+    res.status(404).json({ message: "Todo not found"})
+  }
 })
 
 app.delete('/todos', (req, res) => {
