@@ -1,4 +1,10 @@
 let todos = []
+let categories = [
+  {
+    id: 0,
+    name: 'Uncategorized'
+  },
+]
 
 async function fetchTodos() {
   try {
@@ -14,18 +20,22 @@ async function fetchTodos() {
   }
 }
 
-fetchTodos()
+async function fetchCategories() {
+  try {
+    const response = await fetch('http://localhost:3000/categories')
+    if (!response.ok) {
+      throw new Error('Failed to fetch categories from server')
+    }
+    todos = await response.json()
+    displayCategories(categories);
+    displayCategoryFilters(categories);
+  } catch (error) {
+    console.log('Error fetching categories:', error)
+  }
+}
 
-let categories = [
-  {
-    id: 0,
-    name: 'Uncategorized'
-  },
-  {
-    id: 1,
-    name: 'Chores'
-  },
-]
+fetchTodos()
+fetchCategories()
 
 function displayTodos(todos) {
   const todoList = document.getElementById("todoList")
@@ -97,7 +107,7 @@ async function addTodo() {
       console.error('Error adding todo:', error);
     }
   }
-}
+}//End
 
 //Mark todo Completed--
 function markCompleted(todoID) {
@@ -260,17 +270,31 @@ function displayCategoryFilters(categories) {
   })
 }//End
 
-function addCategory() {
+//Add Category---------------------------------------------
+async function addCategory() {
   const categoryInput = document.getElementById('addCategory')
   if (categoryInput.value.trim()) {
     const newCategory = {
       id: categories.length > 0 ? categories[categories.length - 1].id + 1 : 0,
       name: categoryInput.value.trim()
+    };
+    try {
+      const response = await fetch('http://localhost:3000/categories', {
+        method: 'POST',
+        headers: {
+          'Content-Type':'application/json'
+        },
+        body: JSON.stringify(newCategory)
+      })
+      if (!response.ok) throw new Error('Failed to add category')
+      const addedCategory = await response.json()
+      categories.push(newCategory)
+      displayCategoryFilters(categories)
+      displayCategories(categories)
+      categoryInput.value = ''
+    } catch (error) {
+      console.error('Error adding Category', error)
     }
-    categories.push(newCategory)
-    displayCategoryFilters(categories)
-    displayCategories(categories)
-    categoryInput.value = ''
   }
 }//End
 

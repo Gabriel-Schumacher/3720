@@ -10,7 +10,6 @@ app.use(cors())
 //127.0.0.1
 
 let todos = []
-
 let categories = []
 
 app.get('/', (req, res) => {
@@ -24,7 +23,7 @@ app.get('/todos', (req, res) => {
 })
 
 app.post('/todos', (req, res) => {
-  const newTodo = req.body
+  const newTodo = { ...req.body, id: todos.length ? todos[todos.length - 1].id + 1 : 1 };
   todos.push(newTodo)
   res.status(201).json(newTodo)
 })
@@ -51,15 +50,33 @@ app.get('/todos/category/:category', (req, res) => {
 })
 
 app.get('/categories', (req, res) => {
-
+  res.json(categories)
 })
 
 app.post('/categories', (req, res) => {
-
+  const { name } = req.body
+  if (!name) {
+    return res.status(400).json({message: "Category name is required"})
+  }
+  const newCategory = {
+    id: categories.length ? categories[categories.length - 1].id + 1 : 1,
+    name: name.trim(),
+  }
+  categories.push(newCategory)
+  res.status(201).json(newCategory)
 })
 
 app.put('/categories/:name', (req, res) => {
+  const id = parseInt(req.params.id)
+  const updatedCategory = req.body
+  const index = categories.findIndex(todo => category.id === id)
 
+  if (index !== -1) {
+    categories[index] = {...categories[index], ...updatedCategory }
+    res.json(categories[[index]])
+  } else {
+    res.status(404).json({message: "Category not found"})
+  }
 })
 
 app.delete('/categories/:name', (req, res) => {
