@@ -28,15 +28,15 @@ app.get('/todos', (req, res) => {
 })
 
 app.post('/todos', (req, res) => {
-  const newTodo = { ...req.body, id: todos.length ? todos[todos.length - 1].id + 1 : 1 };
+  const newTodo = { ...req.body, todoID: todos.length ? todos[todos.length - 1].todoID + 1 : 1 };
   todos.push(newTodo)
   res.status(201).json(newTodo)
 })
 
 app.put('/todos', (req, res) => {
-  const id = parseInt(req.params.id)
+  const todoID = parseInt(req.params.todoID)
   const updatedTodo = req.body
-  const index = todos.findIndex(todo => todo.id === id)
+  const index = todos.findIndex(todo => todo.todoID === todoID)
 
   if (index !== -1) {
     todos[index] = {...todos[index], ...updatedTodo }

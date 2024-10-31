@@ -41,6 +41,11 @@ function displayTodos(todos) {
     const todoItem = document.createElement('li')
     todoItem.classList.add('relative', 'flex', 'items-center', 'leading-12','bg-gray-200','my-2','rounded-sm', 'pl-4', 'pr-16', 'cursor-default', 'overflow-hidden', 'list-none', 'group')
 
+    if (!todo.todoID) {
+      console.error("Missing todoID for:", todo)
+      return
+    }
+
     todoItem.dataset.todoId = todo.todoID
     todoItem.dataset.todoComplete = todo.todoComplete
     todoItem.dataset.todoCategory = todo.todoCategory
@@ -106,9 +111,14 @@ async function addTodo() {
 
 //Mark todo Completed--
 function markCompleted(todoID) {
+  const todo = todos.find(todo => todo.todoID === Number(todoID))
+  if (!todo) {
+    console.error(`Todo with ID ${todoID} not found.`)
+    return
+  }
+  todo.todoComplete = !todo.todoComplete
   const todoItem = document.querySelector(`[data-todo-id='${todoID}']`)
   if (todoItem) {
-    const todo = todos.find(todo => todo.todoID === Number(todoID))
     todo.todoComplete = !todo.todoComplete
     todoItem.classList.toggle('line-through', todo.todoComplete)
   }
@@ -282,7 +292,8 @@ async function addCategory() {
         body: JSON.stringify(newCategory)
       })
       if (!response.ok) throw new Error('Failed to add category')
-      const addedCategory = await response.json()
+      // const addedCategory = await response.json()
+      // categories.push(addedCategory)
       categories.push(newCategory)
       displayCategoryFilters(categories)
       displayCategories(categories)
