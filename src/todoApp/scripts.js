@@ -1,10 +1,5 @@
 let todos = []
-let categories = [
-  {
-    id: 0,
-    name: 'Uncategorized'
-  },
-]
+let categories = []
 
 async function fetchTodos() {
   try {
@@ -26,7 +21,7 @@ async function fetchCategories() {
     if (!response.ok) {
       throw new Error('Failed to fetch categories from server')
     }
-    todos = await response.json()
+    categories = await response.json()
     displayCategories(categories);
     displayCategoryFilters(categories);
   } catch (error) {

@@ -10,7 +10,12 @@ app.use(cors())
 //127.0.0.1
 
 let todos = []
-let categories = []
+let categories = [
+  {
+    id: 0,
+    name: 'Uncategorized'
+  },
+]
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
